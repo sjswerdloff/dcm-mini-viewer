@@ -6,7 +6,7 @@ Handles loading and validating DICOM files.
 """
 import os
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import pydicom
 from pydicom.dataset import Dataset
@@ -23,13 +23,7 @@ class DicomHandler:
     # Required DICOM elements to check for
     # This list should be replaced with the actual list from Andrew or Stuart
     # For now, we'll use a placeholder list
-    REQUIRED_ELEMENTS = [
-        "PatientName",
-        "PatientID",
-        "Modality",
-        "StudyDate",
-        "PixelData"
-    ]
+    REQUIRED_ELEMENTS = ["PatientName", "PatientID", "Modality", "StudyDate", "PixelData"]
 
     def __init__(self) -> None:
         """Initialize the DICOM handler."""
@@ -87,9 +81,7 @@ class DicomHandler:
                 missing_elements.append(element)
 
         if missing_elements:
-            self.logger.warning(
-                f"Missing required DICOM elements: {', '.join(missing_elements)}"
-            )
+            self.logger.warning(f"Missing required DICOM elements: {', '.join(missing_elements)}")
             return False, missing_elements
 
         self.logger.info("All required DICOM elements are present")

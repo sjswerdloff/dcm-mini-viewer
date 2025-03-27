@@ -11,8 +11,8 @@ from typing import List, Optional
 from PySide6.QtWidgets import QApplication
 
 from src.config.preferences_manager import PreferencesManager
-from ui.main_window import MainWindow
-from utils.logger import setup_logger
+from src.ui.main_window import MainWindow
+from src.utils.logger import setup_logger
 
 
 def main(args: Optional[List[str]] = None) -> int:

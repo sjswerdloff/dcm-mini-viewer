@@ -7,12 +7,18 @@ from typing import Dict, List
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,
-    QRadioButton, QButtonGroup, QGroupBox, QDialogButtonBox,
-    QListWidget, QListWidgetItem
+    QButtonGroup,
+    QDialog,
+    QDialogButtonBox,
+    QGroupBox,
+    QLabel,
+    QListWidget,
+    QListWidgetItem,
+    QRadioButton,
+    QVBoxLayout,
 )
 
-from utils.logger import get_logger
+from src.utils.logger import get_logger
 
 
 class ElementDialog(QDialog):
@@ -50,10 +56,7 @@ class ElementDialog(QDialog):
         layout = QVBoxLayout(self)
 
         # Information label
-        info_label = QLabel(
-            "The following required DICOM elements are missing. "
-            "Please choose how to proceed:"
-        )
+        info_label = QLabel("The following required DICOM elements are missing. " "Please choose how to proceed:")
         info_label.setWordWrap(True)
         layout.addWidget(info_label)
 
@@ -89,10 +92,7 @@ class ElementDialog(QDialog):
         layout.addWidget(option_group)
 
         # Dialog buttons
-        buttons = QDialogButtonBox(
-            QDialogButtonBox.Ok | QDialogButtonBox.Cancel,
-            Qt.Horizontal
-        )
+        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, Qt.Horizontal)
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         layout.addWidget(buttons)

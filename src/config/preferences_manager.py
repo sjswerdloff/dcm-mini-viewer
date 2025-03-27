@@ -6,7 +6,6 @@ Handles reading and writing preferences to a SQLite database.
 """
 import os
 import sqlite3
-from pathlib import Path
 from typing import Any, Dict, Optional
 
 from src.utils.logger import get_app_data_dir, get_logger
@@ -38,12 +37,14 @@ class PreferencesManager:
             cursor = self.connection.cursor()
 
             # Create the preferences table if it doesn't exist
-            cursor.execute("""
+            cursor.execute(
+                """
                 CREATE TABLE IF NOT EXISTS preferences (
                     key TEXT PRIMARY KEY,
                     value TEXT
                 )
-            """)
+            """
+            )
 
             # Commit changes
             self.connection.commit()
@@ -114,10 +115,7 @@ class PreferencesManager:
 
         try:
             cursor = self.connection.cursor()
-            cursor.execute(
-                "INSERT OR REPLACE INTO preferences (key, value) VALUES (?, ?)",
-                (key, str(value))
-            )
+            cursor.execute("INSERT OR REPLACE INTO preferences (key, value) VALUES (?, ?)", (key, str(value)))
             self.connection.commit()
 
             # Update in-memory preferences

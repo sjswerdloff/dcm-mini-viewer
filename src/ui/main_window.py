@@ -4,16 +4,28 @@
 Main window for the OnkoDICOM discovery project with window/level functionality.
 """
 import os
-from typing import Dict, Optional, Tuple
+from typing import Optional, Tuple
 
 import numpy as np
-from PySide6.QtCore import Qt, Slot, Signal
-from PySide6.QtGui import QAction, QPixmap, QImage, QKeySequence
+from PySide6.QtCore import Qt, Signal, Slot
+from PySide6.QtGui import QAction, QImage, QKeySequence, QPixmap
 from PySide6.QtWidgets import (
-    QMainWindow, QToolBar, QFileDialog, QLabel,
-    QVBoxLayout, QWidget, QScrollArea, QMessageBox,
-    QStatusBar, QDockWidget, QListWidget, QListWidgetItem,
-    QSlider, QHBoxLayout, QGroupBox, QGridLayout, QPushButton
+    QDockWidget,
+    QFileDialog,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QListWidget,
+    QListWidgetItem,
+    QMainWindow,
+    QMessageBox,
+    QPushButton,
+    QScrollArea,
+    QSlider,
+    QToolBar,
+    QVBoxLayout,
+    QWidget,
 )
 
 from src.config.preferences_manager import PreferencesManager
@@ -122,11 +134,7 @@ class WindowLevelWidget(QWidget):
 
         # Add shortcut information
         info_label = QLabel(
-            "Keyboard Shortcuts:\n"
-            "→: Increase Window\n"
-            "←: Decrease Window\n"
-            "↑: Increase Level\n"
-            "↓: Decrease Level"
+            "Keyboard Shortcuts:\n" "→: Increase Window\n" "←: Decrease Window\n" "↑: Increase Level\n" "↓: Decrease Level"
         )
         layout.addWidget(info_label)
 
@@ -187,8 +195,7 @@ class WindowLevelWidget(QWidget):
         self.window_slider.setValue(window)
         self.level_slider.setValue(level)
 
-    def set_window_level_range(self, window_min: int, window_max: int,
-                               level_min: int, level_max: int) -> None:
+    def set_window_level_range(self, window_min: int, window_max: int, level_min: int, level_max: int) -> None:
         """
         Set range for window/level sliders.
 
@@ -414,6 +421,12 @@ class MainWindow(QMainWindow):
             new_level = min(self.level_value + 100, self.window_level_widget.level_max)
             self.window_level_widget.set_window_level(self.window_value, new_level)
 
+    def decrease_level(self):
+        """Decrease level value (darken the image)."""
+        if self.window_level_widget:
+            new_level = max(self.level_value - 100, self.window_level_widget.level_min)
+            self.window_level_widget.set_window_level(self.window_value, new_level)
+
     @Slot()
     def show_window_level_help(self) -> None:
         """Show help dialog for window/level functionality."""
@@ -436,7 +449,7 @@ class MainWindow(QMainWindow):
             "- Brain: W:80, L:40\n"
             "- Bone: W:2000, L:600\n"
             "- Lung: W:1500, L:-600\n"
-            "- Abdomen: W:400, L:50"
+            "- Abdomen: W:400, L:50",
         )
 
     @Slot()
@@ -447,7 +460,7 @@ class MainWindow(QMainWindow):
             "About OnkoDICOM Discovery",
             "OnkoDICOM Discovery Project\n"
             "A small application for viewing DICOM files with window/level functionality\n"
-            "Part of the OnkoDICOM project"
+            "Part of the OnkoDICOM project",
         )
 
     @Slot()
@@ -456,28 +469,17 @@ class MainWindow(QMainWindow):
         self.logger.info("Opening DICOM file dialog")
 
         # Get the default directory from preferences
-        default_dir = self.preferences_manager.get_preference(
-            "dicom_directory",
-            os.path.expanduser("~/Documents")
-        )
+        default_dir = self.preferences_manager.get_preference("dicom_directory", os.path.expanduser("~/Documents"))
 
         # Open file dialog
-        file_path, _ = QFileDialog.getOpenFileName(
-            self,
-            "Open DICOM File",
-            default_dir,
-            "DICOM Files (*.dcm);;All Files (*)"
-        )
+        file_path, _ = QFileDialog.getOpenFileName(self, "Open DICOM File", default_dir, "DICOM Files (*.dcm);;All Files (*)")
 
         if not file_path:
             self.logger.info("No file selected")
             return
 
         # Update the default directory preference
-        self.preferences_manager.set_preference(
-            "dicom_directory",
-            os.path.dirname(file_path)
-        )
+        self.preferences_manager.set_preference("dicom_directory", os.path.dirname(file_path))
 
         # Load the DICOM file
         success, error_msg = self.dicom_handler.load_file(file_path)
@@ -516,7 +518,6 @@ class MainWindow(QMainWindow):
 
         # Update status bar
         self.statusBar().showMessage(f"Loaded {file_path}")
-
 
     def display_dicom_image(self) -> None:
         """Display the DICOM image in the image label with window/level functionality."""
@@ -586,31 +587,29 @@ class MainWindow(QMainWindow):
         self.preferences_manager.close()
         super().closeEvent(event)
 
-
     def setup_shortcuts(self):
-            """Set up keyboard shortcuts for window/level adjustments."""
-            # Window increase/decrease
-            window_increase = QAction("Increase Window", self)
-            window_increase.setShortcut(QKeySequence(Qt.Key_Right))
-            window_increase.triggered.connect(self.increase_window)
-            self.addAction(window_increase)
+        """Set up keyboard shortcuts for window/level adjustments."""
+        # Window increase/decrease
+        window_increase = QAction("Increase Window", self)
+        window_increase.setShortcut(QKeySequence(Qt.Key_Right))
+        window_increase.triggered.connect(self.increase_window)
+        self.addAction(window_increase)
 
-            window_decrease = QAction("Decrease Window", self)
-            window_decrease.setShortcut(QKeySequence(Qt.Key_Left))
-            window_decrease.triggered.connect(self.decrease_window)
-            self.addAction(window_decrease)
+        window_decrease = QAction("Decrease Window", self)
+        window_decrease.setShortcut(QKeySequence(Qt.Key_Left))
+        window_decrease.triggered.connect(self.decrease_window)
+        self.addAction(window_decrease)
 
-            # Level increase/decrease
-            level_increase = QAction("Increase Level", self)
-            level_increase.setShortcut(QKeySequence(Qt.Key_Up))
-            level_increase.triggered.connect(self.increase_level)
-            self.addAction(level_increase)
+        # Level increase/decrease
+        level_increase = QAction("Increase Level", self)
+        level_increase.setShortcut(QKeySequence(Qt.Key_Up))
+        level_increase.triggered.connect(self.increase_level)
+        self.addAction(level_increase)
 
-            level_decrease = QAction("Decrease Level", self)
-            level_decrease.setShortcut(QKeySequence(Qt.Key_Down))
-            level_decrease.triggered.connect(self.decrease_level)
-            self.addAction(level_decrease)
-
+        level_decrease = QAction("Decrease Level", self)
+        level_decrease.setShortcut(QKeySequence(Qt.Key_Down))
+        level_decrease.triggered.connect(self.decrease_level)
+        self.addAction(level_decrease)
 
     def display_dicom_image_with_window_level(self):
         """Display the DICOM image with window/level adjustments."""
@@ -628,13 +627,9 @@ class MainWindow(QMainWindow):
         self.original_pixel_array = pixel_array.copy()
 
         # Apply window/level
-        if hasattr(self, 'window_level_widget'):
+        if hasattr(self, "window_level_widget"):
             self.window_value, self.level_value = self.window_level_widget.get_window_level()
             self.apply_window_level()
-        else:
-            # Fall back to original method if window_level_widget is not available
-            original_display_dicom_image(self)
-
 
     # Add method to apply window/level
     def apply_window_level(self):
@@ -664,13 +659,7 @@ class MainWindow(QMainWindow):
         bytes_per_line = width
 
         # Create QImage (grayscale)
-        q_image = QImage(
-            normalized.data,
-            width,
-            height,
-            bytes_per_line,
-            QImage.Format_Grayscale8
-        )
+        q_image = QImage(normalized.data, width, height, bytes_per_line, QImage.Format_Grayscale8)
 
         # Create QPixmap from QImage
         pixmap = QPixmap.fromImage(q_image)
@@ -681,46 +670,3 @@ class MainWindow(QMainWindow):
 
         # Update status bar
         self.statusBar().showMessage(f"Window: {window}, Level: {level}")
-
-
-    # Add slot for window/level changes
-    @Slot(int, int)
-    def on_window_level_changed(self, window: int, level: int):
-        """
-        Handle window/level change.
-
-        Args:
-            window: New window value.
-            level: New level value.
-        """
-        self.window_value = window
-        self.level_value = level
-        self.apply_window_level()
-
-    # Add methods for keyboard shortcuts
-    def increase_window(self):
-        """Increase window value (widen the window)."""
-        if self.window_level_widget:
-            new_window = min(self.window_value + 100, self.window_level_widget.window_max)
-            self.window_level_widget.set_window_level(new_window, self.level_value)
-
-    def decrease_window(self):
-        """Decrease window value (narrow the window)."""
-        if self.window_level_widget:
-            new_window = max(self.window_value - 100, self.window_level_widget.window_min)
-            self.window_level_widget.set_window_level(new_window, self.level_value)
-
-
-    def increase_level(self):
-        """Increase level value (brighten the image)."""
-        if self.window_level_widget:
-            new_level = min(self.level_value + 100, self.window_level_widget.level_max)
-            self.window_level_widget.set_window_level(self.window_value, new_level)
-
-
-    def decrease_level(self):
-        """Decrease level value (darken the image)."""
-        if self.window_level_widget:
-            new_level = max(self.level_value - 100, self.window_level_widget.level_min)
-            self.window_level_widget.set_window_level(self.window_value, new_level)
-
