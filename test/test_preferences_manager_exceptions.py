@@ -14,8 +14,60 @@ import pytest
 from src.config.preferences_manager import PreferencesManager
 
 
-class TestPreferencesManagerExceptions(unittest.TestCase):
-    """Test case for the exception handling in the PreferencesManager class."""
+class TestPreferencesManagerNotInitialized(unittest.TestCase):
+    """Test case for operations when database is not initialized."""
+
+    def setUp(self) -> None:
+        """Set up test fixtures."""
+        # Create a temporary directory for tests
+        self.temp_dir = tempfile.TemporaryDirectory()
+
+        # Mock the get_app_data_dir function to return our temporary directory
+        self.patcher = mock.patch("src.config.preferences_manager.get_app_data_dir", return_value=Path(self.temp_dir.name))
+        self.mock_get_app_data_dir = self.patcher.start()
+
+        # Mock the logger to prevent actual logging during tests
+        self.logger_patcher = mock.patch("src.config.preferences_manager.get_logger", return_value=mock.MagicMock())
+        self.mock_logger = self.logger_patcher.start()
+
+        # Create a fresh preferences manager instance with no connection
+        self.preferences_manager = PreferencesManager()
+        self.preferences_manager.connection = None
+
+    def tearDown(self) -> None:
+        """Tear down test fixtures."""
+        # Stop the patchers
+        self.patcher.stop()
+        self.logger_patcher.stop()
+
+        # Clean up the temporary directory
+        self.temp_dir.cleanup()
+
+    def test_load_preferences_not_initialized(self) -> None:
+        """Test loading preferences when the database is not initialized."""
+        # Should log an error but not raise an exception
+        self.preferences_manager.load_preferences()
+
+        # Verify preferences is empty
+        self.assertEqual(self.preferences_manager.preferences, {})
+
+        # Verify error was logged
+        self.preferences_manager.logger.error.assert_called_once_with("Database connection not initialized")
+
+    def test_set_preference_not_initialized(self) -> None:
+        """Test setting a preference when the database is not initialized."""
+        # Should log an error but not raise an exception
+        self.preferences_manager.set_preference("test_key", "test_value")
+
+        # Verify preference was not set
+        self.assertEqual(self.preferences_manager.get_preference("test_key", None), None)
+
+        # Verify error was logged
+        self.preferences_manager.logger.error.assert_called_once_with("Database connection not initialized")
+
+
+class TestPreferencesManagerSqliteErrors(unittest.TestCase):
+    """Test case for SQLite error handling."""
 
     def setUp(self) -> None:
         """Set up test fixtures."""
@@ -39,36 +91,6 @@ class TestPreferencesManagerExceptions(unittest.TestCase):
         # Clean up the temporary directory
         self.temp_dir.cleanup()
 
-    def test_load_preferences_not_initialized(self) -> None:
-        """Test loading preferences when the database is not initialized."""
-        # Create a fresh preferences manager instance
-        preferences_manager = PreferencesManager()
-        preferences_manager.connection = None
-
-        # Should log an error but not raise an exception
-        preferences_manager.load_preferences()
-
-        # Verify preferences is empty
-        self.assertEqual(preferences_manager.preferences, {})
-
-        # Verify error was logged
-        preferences_manager.logger.error.assert_called_once_with("Database connection not initialized")
-
-    def test_set_preference_not_initialized(self) -> None:
-        """Test setting a preference when the database is not initialized."""
-        # Create a fresh preferences manager instance
-        preferences_manager = PreferencesManager()
-        preferences_manager.connection = None
-
-        # Should log an error but not raise an exception
-        preferences_manager.set_preference("test_key", "test_value")
-
-        # Verify preference was not set
-        self.assertEqual(preferences_manager.get_preference("test_key", None), None)
-
-        # Verify error was logged
-        preferences_manager.logger.error.assert_called_once_with("Database connection not initialized")
-
     def test_initialize_sqlite_error(self) -> None:
         """Test handling of sqlite3.Error during initialization."""
         # Create a preferences manager instance
@@ -88,13 +110,11 @@ class TestPreferencesManagerExceptions(unittest.TestCase):
         # Create a preferences manager with a mocked connection
         preferences_manager = PreferencesManager()
 
-        # Create a mock connection
+        # Create a mock connection and cursor
         mock_conn = mock.MagicMock()
-
-        # Create a mock cursor
         mock_cursor = mock.MagicMock()
 
-        # Configure the cursor's execute method to raise an error on SELECT
+        # Configure cursor to raise error on SELECT
         def mock_execute(query, *args):
             if query.strip().startswith("SELECT"):
                 raise sqlite3.Error("Mock database error")
@@ -117,13 +137,11 @@ class TestPreferencesManagerExceptions(unittest.TestCase):
         # Create a preferences manager with a mocked connection
         preferences_manager = PreferencesManager()
 
-        # Create a mock connection
+        # Create a mock connection and cursor
         mock_conn = mock.MagicMock()
-
-        # Create a mock cursor
         mock_cursor = mock.MagicMock()
 
-        # Configure the cursor's execute method to raise an error on INSERT/UPDATE
+        # Configure cursor to raise error on INSERT/UPDATE
         def mock_execute(query, *args):
             if query.strip().startswith("INSERT") or query.strip().startswith("UPDATE"):
                 raise sqlite3.Error("Mock database error")
