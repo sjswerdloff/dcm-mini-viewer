@@ -6,7 +6,7 @@ Logging configuration for the OnkoDICOM discovery project.
 import logging
 import os
 import sys
-from logging.handlers import RotatingFileHandler
+from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 from typing import Dict
 
@@ -60,7 +60,10 @@ def setup_logger(log_level: int = logging.INFO) -> logging.Logger:
         log_path.touch(mode=0o622, exist_ok=True)
     if not log_path.exists():
         print(f"WTF? {log_path} not created by touch")
-    file_handler = RotatingFileHandler(log_path, maxBytes=10 * 1024 * 1024, backupCount=5)  # 10 MB
+
+    # file_handler = RotatingFileHandler(log_path, maxBytes=10 * 1024 * 1024, backupCount=5)  # 10 MB
+
+    file_handler = TimedRotatingFileHandler(log_path, when="midnight", backupCount=5)  # 10 MB
 
     # Add handlers to logger
     logger.addHandler(console_handler)
