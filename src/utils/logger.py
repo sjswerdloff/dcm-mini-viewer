@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Logging configuration for the OnkoDICOM discovery project.
+Logging configuration for the dcm-mini-viewer project.
 """
 import logging
 import os
@@ -25,8 +25,8 @@ def setup_logger(log_level: int = logging.INFO) -> logging.Logger:
         logging.Logger: Configured logger instance.
     """
     # Use cached logger if already initialized
-    if "onkodicom" in _LOGGER_CACHE:
-        logger = _LOGGER_CACHE["onkodicom"]
+    if "dcm-mini-viewer" in _LOGGER_CACHE:
+        logger = _LOGGER_CACHE["dcm-mini-viewer"]
         # Update the log level if different
         if logger.getEffectiveLevel() != log_level:
             logger.setLevel(log_level)
@@ -35,7 +35,7 @@ def setup_logger(log_level: int = logging.INFO) -> logging.Logger:
         return logger
 
     # Create logger
-    logger = logging.getLogger("onkodicom")
+    logger = logging.getLogger("dcm-mini-viewer")
     logger.setLevel(log_level)
 
     # Clear any existing handlers
@@ -55,7 +55,7 @@ def setup_logger(log_level: int = logging.INFO) -> logging.Logger:
     log_dir = Path(get_app_data_dir().joinpath("logs"))
     os.makedirs(log_dir, mode=0o755, exist_ok=True)
 
-    log_path = Path(log_dir.joinpath("onkodicom.log"))
+    log_path = Path(log_dir.joinpath("dcm-mini-viewer.log"))
     if not log_path.exists():
         log_path.touch(mode=0o622, exist_ok=True)
     if not log_path.exists():
@@ -76,7 +76,7 @@ def setup_logger(log_level: int = logging.INFO) -> logging.Logger:
     logger.info("Logger initialized")
 
     # Cache the logger
-    _LOGGER_CACHE["onkodicom"] = logger
+    _LOGGER_CACHE["dcm-mini-viewer"] = logger
 
     return logger
 
@@ -92,13 +92,13 @@ def get_app_data_dir() -> Path:
 
     if sys.platform == "win32":
         # Windows
-        app_data_dir = home_dir / ".onkodicom"
+        app_data_dir = home_dir / ".dcm-mini-viewer"
     elif sys.platform == "darwin":
         # macOS
-        app_data_dir = home_dir / ".onkodicom"
+        app_data_dir = home_dir / ".dcm-mini-viewer"
     else:
         # Linux/Unix
-        app_data_dir = home_dir / ".onkodicom"
+        app_data_dir = home_dir / ".dcm-mini-viewer"
 
     # Create directory if it doesn't exist
     os.makedirs(app_data_dir, exist_ok=True)
@@ -114,10 +114,10 @@ def get_logger() -> logging.Logger:
         logging.Logger: Application logger instance.
     """
     # Initialize logger if not already done
-    if "onkodicom" not in _LOGGER_CACHE:
+    if "dcm-mini-viewer" not in _LOGGER_CACHE:
         setup_logger()
 
-    return _LOGGER_CACHE["onkodicom"]
+    return _LOGGER_CACHE["dcm-mini-viewer"]
 
 
 # For testing purposes only, not part of public API
@@ -125,8 +125,8 @@ def _reset_logger() -> None:
     """
     Reset the logger cache (primarily for testing purposes).
     """
-    if "onkodicom" in _LOGGER_CACHE:
-        logger = _LOGGER_CACHE["onkodicom"]
+    if "dcm-mini-viewer" in _LOGGER_CACHE:
+        logger = _LOGGER_CACHE["dcm-mini-viewer"]
         for handler in logger.handlers[:]:
             logger.removeHandler(handler)
-        del _LOGGER_CACHE["onkodicom"]
+        del _LOGGER_CACHE["dcm-mini-viewer"]

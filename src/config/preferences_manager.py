@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Preferences manager for the OnkoDICOM discovery project.
+Preferences manager for the mini-dcm-viewer project.
 Handles reading and writing preferences to a SQLite database.
 """
 import os

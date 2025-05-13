@@ -57,10 +57,10 @@ class TestMain:
 
             # Verify the results
             assert result == 0
-            mock_logger.info.assert_any_call("Starting OnkoDICOM discovery application")
+            mock_logger.info.assert_any_call("Starting dcm-mini-viewer application")
             mock_logger.info.assert_any_call("Application initialized. Starting event loop.")
             mock_app_class.assert_called_once_with(sys.argv)
-            mock_app.setApplicationName.assert_called_once_with("OnkoDICOM Discovery")
+            mock_app.setApplicationName.assert_called_once_with("dcm-mini-viewer")
             mock_preferences_manager.initialize.assert_called_once()
             mock_main_window.show.assert_called_once()
             mock_app.exec.assert_called_once()
@@ -80,8 +80,8 @@ class TestMain:
 
             # Verify the results
             assert result == 0
-            mock_logger.info.assert_any_call("Starting OnkoDICOM discovery application")
-            mock_app.setApplicationName.assert_called_once_with("OnkoDICOM Discovery")
+            mock_logger.info.assert_any_call("Starting dcm-mini-viewer application")
+            mock_app.setApplicationName.assert_called_once_with("dcm-mini-viewer")
             mock_preferences_manager.initialize.assert_called_once()
 
     def test_qapplication_creation(self, qtbot, mock_logger, mock_preferences_manager, mock_main_window):
@@ -94,7 +94,7 @@ class TestMain:
             main.main()
 
             mock_app_class.assert_called_once_with(sys.argv)
-            mock_app.setApplicationName.assert_called_once_with("OnkoDICOM Discovery")
+            mock_app.setApplicationName.assert_called_once_with("dcm-mini-viewer")
 
     def test_main_window_creation(self, qtbot, mock_logger, mock_preferences_manager):
         """Test the MainWindow creation with correct parameters."""

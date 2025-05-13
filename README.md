@@ -1,4 +1,4 @@
-# OnkoDICOM Discovery Project
+# dcm-mini-viewer
 
 A small PySide6 application for viewing DICOM files, developed as a discovery project for the larger OnkoDICOM project.
 
@@ -84,7 +84,6 @@ python -m pytest --cov=src test/
 - Use pre-commit hooks to ensure consistent code style
 - All new functionality must have corresponding unit tests
 - Maintain at least 80% test coverage
-- Every commit must reference a ticket
 - Use the Model-View-Controller (MVC) pattern for UI development
 
 ## License

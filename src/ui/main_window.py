@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Main window for the OnkoDICOM discovery project with window/level functionality.
+Main window for the dcm-mini-viewer project with window/level functionality.
 """
 import os
 from typing import Optional, Tuple
@@ -247,7 +247,7 @@ class MainWindow(QMainWindow):
 
     def setup_ui(self) -> None:
         """Set up the main window user interface."""
-        self.setWindowTitle("OnkoDICOM Discovery")
+        self.setWindowTitle("dcm-mini-viewer")
         self.resize(800, 600)
 
         # Set up central widget
@@ -457,10 +457,8 @@ class MainWindow(QMainWindow):
         """Show the about dialog."""
         QMessageBox.about(
             self,
-            "About OnkoDICOM Discovery",
-            "OnkoDICOM Discovery Project\n"
-            "A small application for viewing DICOM files with window/level functionality\n"
-            "Part of the OnkoDICOM project",
+            "About dcm-mini-viewer",
+            "dcm-mini-viewer Project\n" "A small application for viewing DICOM files with window/level functionality\n",
         )
 
     @Slot()

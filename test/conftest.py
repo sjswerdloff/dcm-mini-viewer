@@ -55,7 +55,7 @@ def temp_app_dir(tmpdir: Path) -> Iterator[Path]:
         Path: Path to the temporary directory
     """
     # Create a temporary directory structure
-    app_dir = Path(tmpdir) / ".onkodicom"
+    app_dir = Path(tmpdir) / ".dcm-mini-viewer"
     log_dir = app_dir / "logs"
     os.makedirs(log_dir, exist_ok=True)
 

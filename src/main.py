@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Main entry point for the OnkoDICOM discovery project.
+Main entry point for the dcm-mini-viewer project.
 This module initializes the application, sets up logging,
 and starts the main UI.
 """
@@ -30,11 +30,11 @@ def main(args: Optional[List[str]] = None) -> int:
 
     # Setup logging
     logger = setup_logger()
-    logger.info("Starting OnkoDICOM discovery application")
+    logger.info("Starting dcm-mini-viewer application")
 
     # Initialize QApplication
     app = QApplication(sys.argv)
-    app.setApplicationName("OnkoDICOM Discovery")
+    app.setApplicationName("dcm-mini-viewer")
 
     # Initialize preferences manager
     preferences_manager = PreferencesManager()

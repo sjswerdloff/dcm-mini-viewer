@@ -38,7 +38,7 @@ def main_window(qtbot, preferences_manager) -> MainWindow:
 
 def test_main_window_initializes(main_window: MainWindow) -> None:
     """Test if MainWindow initializes properly."""
-    assert main_window.windowTitle() == "OnkoDICOM Discovery"
+    assert main_window.windowTitle() == "dcm-mini-viewer"
     assert main_window.size().width() == 800
     assert main_window.size().height() == 600
     assert main_window.image_label is not None
@@ -186,7 +186,7 @@ def test_show_about_dialog(qtbot, main_window: MainWindow, monkeypatch) -> None:
 
     # Check if the message box was shown with the correct title
     assert len(messages) == 1
-    assert messages[0][0] == "About OnkoDICOM Discovery"
+    assert messages[0][0] == "About dcm-mini-viewer"
 
 
 def test_set_window_level_range(qtbot, main_window: MainWindow) -> None:
