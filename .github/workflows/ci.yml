@@ -29,6 +29,7 @@ jobs:
           poetry run flake8 src/ --max-line-length=127
       - name: Lint with pylint
         run: |
+          poetry run python -m pylint --version
           poetry run python -m pylint src/ --max-line-length=127
 
   test:
