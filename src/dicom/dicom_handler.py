@@ -4,6 +4,7 @@
 DICOM file handler for the OnkoDICOM discovery project.
 Handles loading and validating DICOM files.
 """
+
 import os
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
@@ -56,7 +57,7 @@ class DicomHandler:
             error_msg = f"Invalid DICOM file: {str(e)}"
             self.logger.error(error_msg)
             return False, error_msg
-        except Exception as e:
+        except Exception as e:  # pylint: disable=broad-except
             error_msg = f"Error loading DICOM file: {str(e)}"
             self.logger.error(error_msg)
             return False, error_msg
@@ -105,7 +106,7 @@ class DicomHandler:
                 print(f"ByteSwap: {need_byte_swap}")
                 return self.dataset.pixel_array.byteswap(inplace=True)
             return self.dataset.pixel_array
-        except Exception as e:
+        except Exception as e:  # pylint: disable=broad-except
             self.logger.error(f"Error getting pixel array: {str(e)}")
             return None
 
@@ -134,7 +135,7 @@ class DicomHandler:
 
             if hasattr(self.dataset, "StudyDate"):
                 metadata["StudyDate"] = str(self.dataset.StudyDate)
-        except Exception as e:
+        except Exception as e:  # pylint: disable=broad-except
             self.logger.error(f"Error extracting metadata: {str(e)}")
 
         return metadata

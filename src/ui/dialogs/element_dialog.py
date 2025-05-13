@@ -3,6 +3,7 @@
 """
 Dialog for handling missing DICOM elements.
 """
+
 from typing import Dict, List
 
 from PySide6.QtCore import Qt
@@ -27,6 +28,7 @@ class ElementDialog(QDialog):
     Allows the user to choose how to proceed when required elements are missing.
     """
 
+    # pylint: disable=too-many-instance-attributes
     # Action constants
     CONTINUE = 0
     ABORT = 1

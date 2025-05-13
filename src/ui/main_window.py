@@ -40,6 +40,7 @@ class WindowLevelWidget(QWidget):
     Widget for controlling window/level (contrast/brightness) of DICOM images.
     """
 
+    # pylint: disable=too-many-instance-attributes
     # Signals for when window or level changes
     window_level_changed = Signal(int, int)
 
@@ -226,6 +227,7 @@ class MainWindow(QMainWindow):
     Main application window with window/level functionality.
     """
 
+    # pylint: disable=too-many-instance-attributes
     def __init__(self, preferences_manager: PreferencesManager, parent=None) -> None:
         """
         Initialize the main window.
@@ -572,7 +574,7 @@ class MainWindow(QMainWindow):
                 else:
                     # Use default values
                     self.window_level_widget.set_window_level(2000, 1000)
-            except Exception as e:
+            except Exception as e:  # pylint: disable=broad-except
                 self.logger.error(f"Error setting window/level range: {str(e)}")
 
         # Apply window/level
