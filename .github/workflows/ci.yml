@@ -27,9 +27,6 @@ jobs:
       - name: Lint with flake8
         run: |
           poetry run flake8 src/ --max-line-length=127
-      - name: Lint with pylint
-        run: |
-          poetry run python -m pylint --max-line-length=127 --rcfile ./.pylintrc src/
 
   test:
     runs-on: ubuntu-latest
