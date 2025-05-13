@@ -1,6 +1,6 @@
 # dcm-mini-viewer
 
-A small PySide6 application for viewing DICOM files, developed as a discovery project for the larger OnkoDICOM project.
+A small PySide6 application for viewing DICOM files, developed as a discovery project for the OnkoDICOM project.
 
 ## Features
 
@@ -88,4 +88,4 @@ python -m pytest --cov=src test/
 
 ## License
 
-LGPL
+GPL 3
