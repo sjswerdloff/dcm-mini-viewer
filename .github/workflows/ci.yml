@@ -30,7 +30,7 @@ jobs:
       - name: Lint with pylint
         run: |
           poetry run python -m pylint --version
-          poetry run python -m pylint src/ --max-line-length=127
+          poetry run python -m pylint --max-line-length=127 --rcfile ./.pylintrc src/
 
   test:
     runs-on: ubuntu-latest
