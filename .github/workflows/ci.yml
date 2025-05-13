@@ -83,9 +83,9 @@ jobs:
           poetry install
       - name: Build with PyInstaller
         run: |
-          poetry run pyinstaller src/main.py --name onkodicom-discovery --onefile
+          poetry run pyinstaller src/main.py --name dcm-mini-viewer --onefile
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: onkodicom-discovery-${{ matrix.os }}
+          name: dcm-mini-viewer-${{ matrix.os }}
           path: dist/
