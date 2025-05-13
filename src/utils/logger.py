@@ -3,6 +3,7 @@
 """
 Logging configuration for the dcm-mini-viewer project.
 """
+
 import logging
 import os
 import sys
@@ -90,16 +91,7 @@ def get_app_data_dir() -> Path:
     """
     home_dir = Path.home()
 
-    if sys.platform == "win32":
-        # Windows
-        app_data_dir = home_dir / ".dcm-mini-viewer"
-    elif sys.platform == "darwin":
-        # macOS
-        app_data_dir = home_dir / ".dcm-mini-viewer"
-    else:
-        # Linux/Unix
-        app_data_dir = home_dir / ".dcm-mini-viewer"
-
+    app_data_dir = home_dir / ".dcm-mini-viewer"
     # Create directory if it doesn't exist
     os.makedirs(app_data_dir, exist_ok=True)
 

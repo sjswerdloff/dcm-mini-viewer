@@ -3,6 +3,7 @@
 """
 Main window for the dcm-mini-viewer project with window/level functionality.
 """
+
 import os
 from typing import Optional, Tuple
 
@@ -134,7 +135,11 @@ class WindowLevelWidget(QWidget):
 
         # Add shortcut information
         info_label = QLabel(
-            "Keyboard Shortcuts:\n" "→: Increase Window\n" "←: Decrease Window\n" "↑: Increase Level\n" "↓: Decrease Level"
+            "Keyboard Shortcuts:\n"
+            + "→: Increase Window\n"
+            + "←: Decrease Window\n"
+            + "↑: Increase Level\n"
+            + "↓: Decrease Level"
         )
         layout.addWidget(info_label)
 
@@ -458,7 +463,7 @@ class MainWindow(QMainWindow):
         QMessageBox.about(
             self,
             "About dcm-mini-viewer",
-            "dcm-mini-viewer Project\n" "A small application for viewing DICOM files with window/level functionality\n",
+            "dcm-mini-viewer Project\nA small application for viewing DICOM files with window/level functionality\n",
         )
 
     @Slot()

@@ -5,6 +5,7 @@ Main entry point for the dcm-mini-viewer project.
 This module initializes the application, sets up logging,
 and starts the main UI.
 """
+
 import sys
 from typing import List, Optional
 

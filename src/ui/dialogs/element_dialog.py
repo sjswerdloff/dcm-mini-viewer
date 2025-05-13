@@ -56,7 +56,7 @@ class ElementDialog(QDialog):
         layout = QVBoxLayout(self)
 
         # Information label
-        info_label = QLabel("The following required DICOM elements are missing. " "Please choose how to proceed:")
+        info_label = QLabel("The following required DICOM elements are missing. " + "Please choose how to proceed:")
         info_label.setWordWrap(True)
         layout.addWidget(info_label)
 

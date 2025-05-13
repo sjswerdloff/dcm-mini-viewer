@@ -97,7 +97,7 @@ class DicomHandler:
         if not self.dataset or "PixelData" not in self.dataset:
             self.logger.error("No pixel data available")
             return None
-        # TODO: identify when byte swap is needed.  It might depend on the architecture
+        # identify when byte swap is needed.  It might depend on the architecture
         # of the machine on which this is running.
         need_byte_swap = False
         try:
