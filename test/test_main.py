@@ -9,7 +9,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 from PySide6.QtWidgets import QApplication
-from src import main
+from dcm_mini_viewer import main
 
 from dcm_mini_viewer.config.preferences_manager import PreferencesManager
 from dcm_mini_viewer.ui.main_window import MainWindow
