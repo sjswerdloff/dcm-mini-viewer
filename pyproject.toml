@@ -5,7 +5,7 @@ description = "A discovery project for DICOM file viewing"
 authors = ["Stuart Swerdloff <sjswerdloff@gmail.com>"]
 license = "LGPL"
 readme = "README.md"
-packages = [{include = "src"}]
+packages = [{include = "dcm_mini_viewer", from = "src"}]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
