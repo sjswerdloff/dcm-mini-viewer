@@ -23,10 +23,10 @@ jobs:
           poetry install
       - name: Check formatting with Black
         run: |
-          poetry run black --check src/
+          poetry run black --check dcm_mini_viewer/
       - name: Lint with flake8
         run: |
-          poetry run flake8 src/ --max-line-length=127
+          poetry run flake8 dcm_mini_viewer/ --max-line-length=127
 
   test:
     runs-on: ubuntu-latest
@@ -60,7 +60,7 @@ jobs:
         env:
           DISPLAY: ":99"
         run: |
-          poetry run pytest --cov=src --cov-report=xml --cov-report=term test/
+          poetry run pytest --cov=dcm_mini_viewer --cov-report=xml --cov-report=term test/
 
 
   build:
@@ -83,7 +83,7 @@ jobs:
           poetry install
       - name: Build with PyInstaller
         run: |
-          poetry run pyinstaller src/main.py --name dcm-mini-viewer --onefile
+          poetry run pyinstaller dcm_mini_viewer/main.py --name dcm-mini-viewer --onefile
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
