@@ -3,6 +3,7 @@
 """
 Tests specifically for exception handling in the preferences manager.
 """
+
 import sqlite3
 import tempfile
 import unittest
@@ -11,7 +12,7 @@ from unittest import mock
 
 import pytest
 
-from src.config.preferences_manager import PreferencesManager
+from dcm_mini_viewer.config.preferences_manager import PreferencesManager
 
 
 class TestPreferencesManagerNotInitialized(unittest.TestCase):
@@ -23,11 +24,15 @@ class TestPreferencesManagerNotInitialized(unittest.TestCase):
         self.temp_dir = tempfile.TemporaryDirectory()
 
         # Mock the get_app_data_dir function to return our temporary directory
-        self.patcher = mock.patch("src.config.preferences_manager.get_app_data_dir", return_value=Path(self.temp_dir.name))
+        self.patcher = mock.patch(
+            "dcm_mini_viewer.config.preferences_manager.get_app_data_dir", return_value=Path(self.temp_dir.name)
+        )
         self.mock_get_app_data_dir = self.patcher.start()
 
         # Mock the logger to prevent actual logging during tests
-        self.logger_patcher = mock.patch("src.config.preferences_manager.get_logger", return_value=mock.MagicMock())
+        self.logger_patcher = mock.patch(
+            "dcm_mini_viewer.config.preferences_manager.get_logger", return_value=mock.MagicMock()
+        )
         self.mock_logger = self.logger_patcher.start()
 
         # Create a fresh preferences manager instance with no connection
@@ -75,11 +80,15 @@ class TestPreferencesManagerSqliteErrors(unittest.TestCase):
         self.temp_dir = tempfile.TemporaryDirectory()
 
         # Mock the get_app_data_dir function to return our temporary directory
-        self.patcher = mock.patch("src.config.preferences_manager.get_app_data_dir", return_value=Path(self.temp_dir.name))
+        self.patcher = mock.patch(
+            "dcm_mini_viewer.config.preferences_manager.get_app_data_dir", return_value=Path(self.temp_dir.name)
+        )
         self.mock_get_app_data_dir = self.patcher.start()
 
         # Mock the logger to prevent actual logging during tests
-        self.logger_patcher = mock.patch("src.config.preferences_manager.get_logger", return_value=mock.MagicMock())
+        self.logger_patcher = mock.patch(
+            "dcm_mini_viewer.config.preferences_manager.get_logger", return_value=mock.MagicMock()
+        )
         self.mock_logger = self.logger_patcher.start()
 
     def tearDown(self) -> None:
@@ -97,7 +106,9 @@ class TestPreferencesManagerSqliteErrors(unittest.TestCase):
         preferences_manager = PreferencesManager()
 
         # Create a mock for sqlite3.connect that raises an error
-        with mock.patch("src.config.preferences_manager.sqlite3.connect", side_effect=sqlite3.Error("Mock database error")):
+        with mock.patch(
+            "dcm_mini_viewer.config.preferences_manager.sqlite3.connect", side_effect=sqlite3.Error("Mock database error")
+        ):
             # Should raise the sqlite3.Error
             with self.assertRaises(sqlite3.Error):
                 preferences_manager.initialize()

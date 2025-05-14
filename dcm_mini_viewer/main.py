@@ -11,9 +11,9 @@ from typing import List, Optional
 
 from PySide6.QtWidgets import QApplication
 
-from src.config.preferences_manager import PreferencesManager
-from src.ui.main_window import MainWindow
-from src.utils.logger import setup_logger
+from dcm_mini_viewer.config.preferences_manager import PreferencesManager
+from dcm_mini_viewer.ui.main_window import MainWindow
+from dcm_mini_viewer.utils.logger import setup_logger
 
 
 def main(args: Optional[List[str]] = None) -> int:

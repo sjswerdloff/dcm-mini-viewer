@@ -3,6 +3,7 @@
 """
 Unit tests for the ElementDialog class.
 """
+
 from typing import Dict, List
 from unittest.mock import MagicMock, patch
 
@@ -10,7 +11,7 @@ import pytest
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QDialogButtonBox, QListWidget
 
-from src.ui.dialogs.element_dialog import ElementDialog
+from dcm_mini_viewer.ui.dialogs.element_dialog import ElementDialog
 
 
 @pytest.mark.usefixtures("qtbot")
@@ -25,7 +26,7 @@ class TestElementDialog:
     @pytest.fixture
     def dialog(self, qtbot, missing_elements: List[str]):
         """Fixture providing an initialized ElementDialog instance."""
-        with patch("src.ui.dialogs.element_dialog.get_logger") as mock_get_logger:
+        with patch("dcm_mini_viewer.ui.dialogs.element_dialog.get_logger") as mock_get_logger:
             mock_logger = MagicMock()
             mock_get_logger.return_value = mock_logger
             dialog = ElementDialog(missing_elements)

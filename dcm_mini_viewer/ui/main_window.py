@@ -29,10 +29,10 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from src.config.preferences_manager import PreferencesManager
-from src.dicom.dicom_handler import DicomHandler
-from src.ui.dialogs.element_dialog import ElementDialog
-from src.utils.logger import get_logger
+from dcm_mini_viewer.config.preferences_manager import PreferencesManager
+from dcm_mini_viewer.dicom.dicom_handler import DicomHandler
+from dcm_mini_viewer.ui.dialogs.element_dialog import ElementDialog
+from dcm_mini_viewer.utils.logger import get_logger
 
 
 class WindowLevelWidget(QWidget):

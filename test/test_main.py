@@ -3,21 +3,22 @@
 """
 Unit tests for the main.py module.
 """
+
 import sys
 from unittest.mock import MagicMock, patch
 
 import pytest
 from PySide6.QtWidgets import QApplication
+from dcm_mini_viewer import main
 
-from src import main
-from src.config.preferences_manager import PreferencesManager
-from src.ui.main_window import MainWindow
+from dcm_mini_viewer.config.preferences_manager import PreferencesManager
+from dcm_mini_viewer.ui.main_window import MainWindow
 
 
 @pytest.fixture
 def mock_logger():
     """Fixture to provide a mock logger."""
-    with patch("src.main.setup_logger") as mock_setup_logger:
+    with patch("dcm_mini_viewer.main.setup_logger") as mock_setup_logger:
         mock_logger = MagicMock()
         mock_setup_logger.return_value = mock_logger
         yield mock_logger
@@ -26,7 +27,7 @@ def mock_logger():
 @pytest.fixture
 def mock_preferences_manager():
     """Fixture to provide a mock preferences manager."""
-    with patch("src.main.PreferencesManager") as mock_pref_manager_class:
+    with patch("dcm_mini_viewer.main.PreferencesManager") as mock_pref_manager_class:
         mock_manager = MagicMock(spec=PreferencesManager)
         mock_pref_manager_class.return_value = mock_manager
         yield mock_manager
@@ -35,7 +36,7 @@ def mock_preferences_manager():
 @pytest.fixture
 def mock_main_window():
     """Fixture to provide a mock main window."""
-    with patch("src.main.MainWindow") as mock_window_class:
+    with patch("dcm_mini_viewer.main.MainWindow") as mock_window_class:
         mock_window = MagicMock(spec=MainWindow)
         mock_window_class.return_value = mock_window
         yield mock_window
@@ -47,7 +48,7 @@ class TestMain:
     def test_main_with_default_args(self, qtbot, mock_logger, mock_preferences_manager, mock_main_window):
         """Test the main function with default arguments."""
         # Prepare the test
-        with patch("src.main.QApplication") as mock_app_class:
+        with patch("dcm_mini_viewer.main.QApplication") as mock_app_class:
             mock_app = MagicMock(spec=QApplication)
             mock_app_class.return_value = mock_app
             mock_app.exec.return_value = 0
@@ -70,7 +71,7 @@ class TestMain:
         # Prepare the test
         custom_args = ["--debug", "--config=test.cfg"]
 
-        with patch("src.main.QApplication") as mock_app_class:
+        with patch("dcm_mini_viewer.main.QApplication") as mock_app_class:
             mock_app = MagicMock(spec=QApplication)
             mock_app_class.return_value = mock_app
             mock_app.exec.return_value = 0
@@ -86,7 +87,7 @@ class TestMain:
 
     def test_qapplication_creation(self, qtbot, mock_logger, mock_preferences_manager, mock_main_window):
         """Test the QApplication creation and configuration."""
-        with patch("src.main.QApplication") as mock_app_class:
+        with patch("dcm_mini_viewer.main.QApplication") as mock_app_class:
             mock_app = MagicMock(spec=QApplication)
             mock_app_class.return_value = mock_app
             mock_app.exec.return_value = 0
@@ -98,7 +99,10 @@ class TestMain:
 
     def test_main_window_creation(self, qtbot, mock_logger, mock_preferences_manager):
         """Test the MainWindow creation with correct parameters."""
-        with patch("src.main.QApplication") as mock_app_class, patch("src.main.MainWindow") as mock_window_class:
+        with (
+            patch("dcm_mini_viewer.main.QApplication") as mock_app_class,
+            patch("dcm_mini_viewer.main.MainWindow") as mock_window_class,
+        ):
             mock_app = MagicMock(spec=QApplication)
             mock_app_class.return_value = mock_app
             mock_app.exec.return_value = 0
@@ -115,7 +119,7 @@ class TestMain:
         """Test that the application exit code is correctly returned."""
         expected_exit_code = 42
 
-        with patch("src.main.QApplication") as mock_app_class:
+        with patch("dcm_mini_viewer.main.QApplication") as mock_app_class:
             mock_app = MagicMock(spec=QApplication)
             mock_app_class.return_value = mock_app
             mock_app.exec.return_value = expected_exit_code
@@ -127,8 +131,7 @@ class TestMain:
 
     def test_main_script_execution(self, qtbot, mock_logger, mock_preferences_manager, mock_main_window):
         """Test the script execution when run as __main__."""
-        with patch("sys.exit") as mock_sys_exit, patch("src.main.QApplication", MagicMock()) as mock_app_class:
-
+        with patch("sys.exit") as mock_sys_exit, patch("dcm_mini_viewer.main.QApplication", MagicMock()) as mock_app_class:
             # Configure QApplication mock to prevent instantiation conflicts
             mock_app = MagicMock()
             mock_app_class.return_value = mock_app

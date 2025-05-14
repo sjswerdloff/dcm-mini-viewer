@@ -3,6 +3,7 @@
 """
 Pytest configuration for logger tests.
 """
+
 import logging
 import os
 from pathlib import Path
@@ -11,7 +12,7 @@ from typing import Iterator
 import pytest
 
 # Import from refactored module
-from src.utils.logger import _reset_logger
+from dcm_mini_viewer.utils.logger import _reset_logger
 
 
 @pytest.fixture(autouse=True)

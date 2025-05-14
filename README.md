@@ -61,7 +61,7 @@ poetry run pre-commit install
 4. Run the application:
 
 ```bash
-python -m src.main
+python -m dcm_mini_viewer.main
 ```
 
 ## Testing
@@ -75,7 +75,7 @@ python -m pytest test/
 Run tests with coverage reporting:
 
 ```bash
-python -m pytest --cov=src test/
+python -m pytest --cov=dcm_mini_viewer test/
 ```
 
 ## Development Guidelines

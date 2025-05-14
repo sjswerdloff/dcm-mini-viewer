@@ -3,6 +3,7 @@
 """
 Unit tests for the logger module.
 """
+
 import logging
 import sys
 import unittest
@@ -13,7 +14,7 @@ from unittest import mock
 
 import pytest
 
-from src.utils.logger import _LOGGER_CACHE, _reset_logger, get_app_data_dir, get_logger, setup_logger
+from dcm_mini_viewer.utils.logger import _LOGGER_CACHE, _reset_logger, get_app_data_dir, get_logger, setup_logger
 
 
 class TestLogger(unittest.TestCase):
@@ -89,7 +90,7 @@ class TestLogger(unittest.TestCase):
         self.assertNotEqual(console_handler.formatter._fmt, file_handler.formatter._fmt)
 
     @pytest.mark.skip
-    @mock.patch("src.utils.logger.get_app_data_dir")
+    @mock.patch("dcm_mini_viewer.utils.logger.get_app_data_dir")
     @mock.patch("os.makedirs")
     def test_setup_logger_file_handler(self, mock_makedirs: mock.Mock, mock_get_app_data_dir: mock.Mock) -> None:
         """Test that file handler is correctly set up."""
@@ -358,7 +359,7 @@ class TestLogger(unittest.TestCase):
         self.assertIn("Warning test message", stdout_content)
         self.assertIn("Error test message", stdout_content)
 
-    @mock.patch("src.utils.logger.get_app_data_dir")
+    @mock.patch("dcm_mini_viewer.utils.logger.get_app_data_dir")
     def test_log_file_creation(self, mock_get_app_data_dir: mock.Mock) -> None:
         """Test that the log file is actually created."""
         # Create a temporary directory for the test

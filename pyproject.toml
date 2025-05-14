@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "dcm-mini-viewer"
-version = "0.1.0"
+version = "0.2.0"
 description = "A discovery project for DICOM file viewing"
 authors = ["Stuart Swerdloff <sjswerdloff@gmail.com>"]
 license = "LGPL"
 readme = "README.md"
-packages = [{include = "src"}]
+packages = [{include = "dcm_mini_viewer"}]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
