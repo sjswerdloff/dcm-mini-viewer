@@ -3,6 +3,7 @@
 """
 Tests for the preferences manager.
 """
+
 import os
 import tempfile
 import unittest
@@ -11,8 +12,7 @@ from unittest import mock
 
 import pytest
 
-
-from src.config.preferences_manager import PreferencesManager
+from dcm_mini_viewer.config.preferences_manager import PreferencesManager
 
 
 class TestPreferencesManager(unittest.TestCase):
@@ -24,10 +24,7 @@ class TestPreferencesManager(unittest.TestCase):
         self.temp_dir = tempfile.TemporaryDirectory()
 
         # Mock the get_app_data_dir function to return our temporary directory
-        self.patcher = mock.patch(
-            'src.config.preferences_manager.get_app_data_dir',
-            return_value=Path(self.temp_dir.name)
-        )
+        self.patcher = mock.patch("src.config.preferences_manager.get_app_data_dir", return_value=Path(self.temp_dir.name))
         self.mock_get_app_data_dir = self.patcher.start()
 
         # Create an instance of the preferences manager

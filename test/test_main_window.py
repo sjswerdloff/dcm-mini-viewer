@@ -3,6 +3,7 @@
 """
 Test module for MainWindow class using pytest-qt plugin.
 """
+
 from typing import List
 
 import numpy as np
@@ -10,9 +11,9 @@ import pytest
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import QApplication, QFileDialog, QMessageBox, QPushButton, QRadioButton
 
-from src.config.preferences_manager import PreferencesManager
-from src.dicom.dicom_handler import DicomHandler
-from src.ui.main_window import MainWindow
+from dcm_mini_viewer.config.preferences_manager import PreferencesManager
+from dcm_mini_viewer.dicom.dicom_handler import DicomHandler
+from dcm_mini_viewer.ui.main_window import MainWindow
 
 # Add the parent directory to the path to import the application modules
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))

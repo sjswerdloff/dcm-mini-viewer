@@ -4,11 +4,12 @@
 Preferences manager for the mini-dcm-viewer project.
 Handles reading and writing preferences to a SQLite database.
 """
+
 import os
 import sqlite3
 from typing import Any, Dict, Optional
 
-from src.utils.logger import get_app_data_dir, get_logger
+from dcm_mini_viewer.utils.logger import get_app_data_dir, get_logger
 
 
 class PreferencesManager:

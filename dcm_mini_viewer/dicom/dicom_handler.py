@@ -13,7 +13,7 @@ import pydicom
 from pydicom.dataset import Dataset
 from pydicom.errors import InvalidDicomError
 
-from src.utils.logger import get_logger
+from dcm_mini_viewer.utils.logger import get_logger
 
 
 class DicomHandler:

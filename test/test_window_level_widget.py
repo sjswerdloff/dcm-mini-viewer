@@ -3,13 +3,14 @@
 """
 Unit tests for the WindowLevelWidget class.
 """
+
 from unittest.mock import MagicMock
 
 import pytest
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QPushButton
 
-from src.ui.main_window import WindowLevelWidget
+from dcm_mini_viewer.ui.main_window import WindowLevelWidget
 
 
 @pytest.mark.usefixtures("qtbot")

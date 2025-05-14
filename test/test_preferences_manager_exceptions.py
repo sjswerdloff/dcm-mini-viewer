@@ -3,6 +3,7 @@
 """
 Tests specifically for exception handling in the preferences manager.
 """
+
 import sqlite3
 import tempfile
 import unittest
@@ -11,7 +12,7 @@ from unittest import mock
 
 import pytest
 
-from src.config.preferences_manager import PreferencesManager
+from dcm_mini_viewer.config.preferences_manager import PreferencesManager
 
 
 class TestPreferencesManagerNotInitialized(unittest.TestCase):

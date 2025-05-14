@@ -3,6 +3,7 @@
 """
 Unit tests for the ElementDialog class.
 """
+
 from typing import Dict, List
 from unittest.mock import MagicMock, patch
 
@@ -10,7 +11,7 @@ import pytest
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QDialogButtonBox, QListWidget
 
-from src.ui.dialogs.element_dialog import ElementDialog
+from dcm_mini_viewer.ui.dialogs.element_dialog import ElementDialog
 
 
 @pytest.mark.usefixtures("qtbot")

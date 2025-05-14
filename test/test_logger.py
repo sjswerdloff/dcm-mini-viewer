@@ -3,6 +3,7 @@
 """
 Unit tests for the logger module.
 """
+
 import logging
 import sys
 import unittest
@@ -13,7 +14,7 @@ from unittest import mock
 
 import pytest
 
-from src.utils.logger import _LOGGER_CACHE, _reset_logger, get_app_data_dir, get_logger, setup_logger
+from dcm_mini_viewer.utils.logger import _LOGGER_CACHE, _reset_logger, get_app_data_dir, get_logger, setup_logger
 
 
 class TestLogger(unittest.TestCase):

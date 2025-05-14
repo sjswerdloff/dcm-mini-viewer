@@ -3,15 +3,16 @@
 """
 Unit tests for the main.py module.
 """
+
 import sys
 from unittest.mock import MagicMock, patch
 
 import pytest
 from PySide6.QtWidgets import QApplication
-
 from src import main
-from src.config.preferences_manager import PreferencesManager
-from src.ui.main_window import MainWindow
+
+from dcm_mini_viewer.config.preferences_manager import PreferencesManager
+from dcm_mini_viewer.ui.main_window import MainWindow
 
 
 @pytest.fixture
@@ -128,7 +129,6 @@ class TestMain:
     def test_main_script_execution(self, qtbot, mock_logger, mock_preferences_manager, mock_main_window):
         """Test the script execution when run as __main__."""
         with patch("sys.exit") as mock_sys_exit, patch("src.main.QApplication", MagicMock()) as mock_app_class:
-
             # Configure QApplication mock to prevent instantiation conflicts
             mock_app = MagicMock()
             mock_app_class.return_value = mock_app

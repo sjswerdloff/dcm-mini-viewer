@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
-from src.utils.logger import get_logger
+from dcm_mini_viewer.utils.logger import get_logger
 
 
 class ElementDialog(QDialog):

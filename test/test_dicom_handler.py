@@ -3,6 +3,7 @@
 """
 Tests for the DICOM handler.
 """
+
 import os
 import tempfile
 import unittest
@@ -13,7 +14,7 @@ import pytest
 from pydicom.dataset import Dataset, FileDataset
 from pydicom.errors import InvalidDicomError
 
-from src.dicom.dicom_handler import DicomHandler
+from dcm_mini_viewer.dicom.dicom_handler import DicomHandler
 
 
 class TestDicomHandler(unittest.TestCase):
