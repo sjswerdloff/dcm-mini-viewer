@@ -24,17 +24,6 @@ AI="${AI_FULL_NAME:-$(whoami)}"
 SHA="$(git rev-parse --short HEAD)"
 REPO_NAME="$(basename "$(git rev-parse --show-toplevel)")"
 REVIEW_LOG="$HOME/ai/ClaudeInstanceHomeOffices/$AI/kindled-review-runs/$REPO_NAME/$SHA.log"
-
-# Atomic per-SHA lock: two overlapping post-commit invocations for the same SHA
-# could both see the log as absent and both run the review (#12).  mkdir is
-# atomic — if it succeeds we own the lock; if it fails, another run is in flight.
-LOCKDIR="$(git rev-parse --git-dir)/kindled-review-lock-$SHA"
-if ! mkdir "$LOCKDIR" 2>/dev/null; then
-    echo "kindled-review: review already running for $SHA — skipping" >&2
-    exit 0
-fi
-trap 'rmdir "$LOCKDIR" 2>/dev/null' EXIT
-
 if [[ -f "$REVIEW_LOG" ]]; then
     echo "kindled-review: already reviewed $SHA — skipping duplicate" >&2
     exit 0
