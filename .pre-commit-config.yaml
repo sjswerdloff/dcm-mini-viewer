@@ -1,26 +1,34 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+default_install_hook_types: [pre-commit, post-commit]
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-    -   id: trailing-whitespace
-    -   id: end-of-file-fixer
-    -   id: check-yaml
-    -   id: check-added-large-files
-
--   repo: https://github.com/psf/black
-    rev: 25.1.0
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-added-large-files
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.2
     hooks:
-    -   id: black
-        args: [--line-length=127]
-
--   repo: https://github.com/pycqa/flake8
-    rev: 7.1.2
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+  # kindled-code-review / OpenCodeReview post-commit (issue #1).
+  # Baked in: pre-commit installed at .git/hooks/pre-commit installs the post-commit hook too, so every
+  # clone gets the review.  The canonical hook lives at
+  # $HOME/ai/kindled_projects/kindled-code-review/hooks/post-commit; if it is
+  # missing, the wrapper says so loudly on every commit (never passes silently).
+  # OCR needs the local model endpoint — CI cannot run this.  Developers only.
+  - repo: local
     hooks:
-    -   id: flake8
-        args: [--max-line-length=127]
-
--   repo: https://github.com/pycqa/isort
-    rev: 6.0.1
-    hooks:
-    -   id: isort
-        args: [--profile=black, --line-length=127]
+      - id: kindled-review
+        name: kindled code review (cross-file wall + OCR)
+        entry: scripts/kindled_review_postcommit.sh
+        language: script
+        stages: [post-commit]
+        always_run: true
+        pass_filenames: false
+        verbose: true

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Main entry point for the dcm-mini-viewer project.
 This module initializes the application, sets up logging,
@@ -7,7 +6,6 @@ and starts the main UI.
 """
 
 import sys
-from typing import List, Optional
 
 from PySide6.QtWidgets import QApplication
 
@@ -16,7 +14,7 @@ from dcm_mini_viewer.ui.main_window import MainWindow
 from dcm_mini_viewer.utils.logger import setup_logger
 
 
-def main(args: Optional[List[str]] = None) -> int:
+def main(args: list[str] | None = None) -> int:
     """
     Main application entry point.
 
