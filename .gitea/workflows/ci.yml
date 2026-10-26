@@ -1,0 +1,41 @@
+# Gitea CI — written for our runner (no passwordless sudo).
+# When this directory exists, Gitea stops running .github/workflows.
+# .github/workflows/ci.yml is left as-is for GitHub.
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-arm-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+      - name: Set up Python
+        run: uv python install 3.12
+      - name: Install dependencies
+        run: uv sync --locked --dev
+      - name: Lint with ruff
+        run: uv run ruff check dcm_mini_viewer/
+      - name: Check formatting with ruff
+        run: uv run ruff format --check dcm_mini_viewer/
+
+  test:
+    runs-on: ubuntu-arm-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+      - name: Set up Python
+        run: uv python install 3.12
+      - name: Install dependencies
+        run: uv sync --locked --dev
+      - name: Test with pytest
+        env:
+          QT_QPA_PLATFORM: "offscreen"
+        run: uv run pytest --cov=dcm_mini_viewer --cov-report=xml --cov-report=term test/
