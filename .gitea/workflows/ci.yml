@@ -1,56 +1,46 @@
-# Gitea CI — written for our runner (no passwordless sudo).
-# When this directory exists, Gitea stops running .github/workflows.
-# .github/workflows/ci.yml is left as-is for GitHub.
-name: CI
-
+# Gitea CI (#6), on our self-hosted Mac Studio runner. .github/workflows/ stays for GitHub's
+# hosted runners; Gitea reads .gitea/workflows/ in preference to it.
+# Actions are pinned by commit SHA with the tag in a comment.
+# Single interpreter: the Studio cannot run 3.13/3.14 against PySide6 6.8.3 (no cp313+
+# wheels), and three interpreters sharing one .venv on one machine is not three
+# measurements. The version matrix lives in .github/workflows/ci.yml.
+# (That header was #8's, written when requires-python still capped <3.13 — the matrix the
+# header defers now lives in .github, where #7's lift >=3.12,<3.15 makes it honest.)
+name: ci
 on:
-  push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
-
+  push:
+    branches: [main]
+concurrency:
+  group: ci-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: /opt/homebrew/bin/bash -eo pipefail {0}
 jobs:
-  lint:
-    runs-on: ubuntu-arm-latest
+  gates:
+    runs-on: stuart-m3ultra-canary
+    env:
+      QT_QPA_PLATFORM: offscreen
     steps:
-      - uses: actions/checkout@v4
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-      - name: Set up Python
-        run: uv python install 3.12
+      - name: Homebrew first on PATH
+        run: |
+          echo /opt/homebrew/sbin >> "$GITHUB_PATH"
+          echo /opt/homebrew/bin >> "$GITHUB_PATH"
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: uv (Homebrew's; installed once if this runner lacks it)
+        run: |
+          command -v uv > /dev/null || HOMEBREW_NO_AUTO_UPDATE=1 brew install uv
+          echo "uv: $(command -v uv) -> $(uv --version)"
       - name: Install dependencies
         run: uv sync --locked --dev
       - name: Lint with ruff
-        run: uv run ruff check dcm_mini_viewer/
+        run: uv run --locked ruff check dcm_mini_viewer/
       - name: Check formatting with ruff
-        run: uv run ruff format --check dcm_mini_viewer/
-
-  test:
-    runs-on: ubuntu-arm-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ['3.12', '3.13', '3.14']
-    env:
-      UV_PYTHON: ${{ matrix.python-version }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-      - name: Set up Python
-        run: uv python install ${{ matrix.python-version }}
-      - name: Install system libraries for PySide6 (no sudo — download and extract)
-        run: |
-          mkdir -p /tmp/qt-libs
-          cd /tmp/qt-libs
-          apt-get download libegl1 libgl1 libxkbcommon-x11-0 libxcb-cursor0
-          for deb in *.deb; do dpkg-deb -x "$deb" .; done
-          echo "LD_LIBRARY_PATH=/tmp/qt-libs/usr/lib/aarch64-linux-gnu:$LD_LIBRARY_PATH" >> "$GITHUB_ENV"
-      - name: Install dependencies
-        run: uv sync --locked --dev
+        run: uv run --locked ruff format --check dcm_mini_viewer/
       - name: Test with pytest
-        env:
-          QT_QPA_PLATFORM: "offscreen"
         run: |
-          uv run python --version
-          uv run pytest --cov=dcm_mini_viewer --cov-report=xml --cov-report=term test/
+          uv run --locked python --version
+          uv run --locked pytest test/
