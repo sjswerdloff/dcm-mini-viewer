@@ -17,6 +17,9 @@ defaults:
 jobs:
   gates:
     runs-on: stuart-m3ultra-canary
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13", "3.14"]
     env:
       QT_QPA_PLATFORM: offscreen
     steps:
@@ -29,6 +32,8 @@ jobs:
         run: |
           command -v uv > /dev/null || HOMEBREW_NO_AUTO_UPDATE=1 brew install uv
           echo "uv: $(command -v uv) -> $(uv --version)"
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
       - name: Install dependencies
         run: uv sync --locked --dev
       - name: Lint with ruff
