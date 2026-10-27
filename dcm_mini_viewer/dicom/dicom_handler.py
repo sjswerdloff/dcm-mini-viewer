@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 DICOM file handler for the OnkoDICOM discovery project.
 Handles loading and validating DICOM files.
@@ -7,7 +6,6 @@ Handles loading and validating DICOM files.
 
 import os
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Union
 
 import pydicom
 from pydicom.dataset import Dataset
@@ -29,9 +27,9 @@ class DicomHandler:
     def __init__(self) -> None:
         """Initialize the DICOM handler."""
         self.logger = get_logger()
-        self.dataset: Optional[Dataset] = None
+        self.dataset: Dataset | None = None
 
-    def load_file(self, file_path: Union[str, Path]) -> Tuple[bool, Optional[str]]:
+    def load_file(self, file_path: str | Path) -> tuple[bool, str | None]:
         """
         Load a DICOM file.
 
@@ -62,7 +60,7 @@ class DicomHandler:
             self.logger.error(error_msg)
             return False, error_msg
 
-    def validate_elements(self) -> Tuple[bool, List[str]]:
+    def validate_elements(self) -> tuple[bool, list[str]]:
         """
         Validate that the DICOM file contains all required elements.
 
@@ -73,7 +71,7 @@ class DicomHandler:
             self.logger.error("No DICOM dataset loaded")
             return False, []
 
-        missing_elements: List[str] = []
+        missing_elements: list[str] = []
 
         for element in self.REQUIRED_ELEMENTS:
             try:
@@ -88,7 +86,7 @@ class DicomHandler:
         self.logger.info("All required DICOM elements are present")
         return True, []
 
-    def get_pixel_array(self) -> Optional[object]:
+    def get_pixel_array(self) -> object | None:
         """
         Get the pixel array from the DICOM dataset.
 
@@ -110,14 +108,14 @@ class DicomHandler:
             self.logger.error(f"Error getting pixel array: {str(e)}")
             return None
 
-    def get_metadata(self) -> Dict[str, str]:
+    def get_metadata(self) -> dict[str, str]:
         """
         Get metadata from the DICOM dataset.
 
         Returns:
             Dict[str, str]: Dictionary of metadata.
         """
-        metadata: Dict[str, str] = {}
+        metadata: dict[str, str] = {}
 
         if not self.dataset:
             return metadata

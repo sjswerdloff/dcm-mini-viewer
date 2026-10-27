@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Preferences manager for the mini-dcm-viewer project.
 Handles reading and writing preferences to a SQLite database.
@@ -7,7 +6,7 @@ Handles reading and writing preferences to a SQLite database.
 
 import os
 import sqlite3
-from typing import Any, Dict, Optional
+from typing import Any
 
 from dcm_mini_viewer.utils.logger import get_app_data_dir, get_logger
 
@@ -22,8 +21,8 @@ class PreferencesManager:
         self.logger = get_logger()
         self.app_data_dir = get_app_data_dir()
         self.db_path = self.app_data_dir / "preferences.db"
-        self.connection: Optional[sqlite3.Connection] = None
-        self.preferences: Dict[str, Any] = {}
+        self.connection: sqlite3.Connection | None = None
+        self.preferences: dict[str, Any] = {}
 
     def initialize(self) -> None:
         """

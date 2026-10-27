@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Main window for the dcm-mini-viewer project with window/level functionality.
 """
 
 import os
-from typing import Optional, Tuple
 
 import numpy as np
 from PySide6.QtCore import Qt, Signal, Slot
@@ -180,7 +178,7 @@ class WindowLevelWidget(QWidget):
         self.window_slider.setValue(window)
         self.level_slider.setValue(level)
 
-    def get_window_level(self) -> Tuple[int, int]:
+    def get_window_level(self) -> tuple[int, int]:
         """
         Get current window/level values.
 
@@ -241,12 +239,12 @@ class MainWindow(QMainWindow):
         self.preferences_manager = preferences_manager
         self.dicom_handler = DicomHandler()
 
-        self.image_label: Optional[QLabel] = None
-        self.metadata_list: Optional[QListWidget] = None
+        self.image_label: QLabel | None = None
+        self.metadata_list: QListWidget | None = None
 
         # For window/level functionality
-        self.window_level_widget: Optional[WindowLevelWidget] = None
-        self.original_pixel_array: Optional[np.ndarray] = None
+        self.window_level_widget: WindowLevelWidget | None = None
+        self.original_pixel_array: np.ndarray | None = None
         self.window_value: int = 2000
         self.level_value: int = 1000
 
