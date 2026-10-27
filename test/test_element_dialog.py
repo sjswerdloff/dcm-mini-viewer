@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Unit tests for the ElementDialog class.
 """
 
-from typing import Dict, List
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -19,12 +17,12 @@ class TestElementDialog:
     """Test cases for the ElementDialog class."""
 
     @pytest.fixture
-    def missing_elements(self) -> List[str]:
+    def missing_elements(self) -> list[str]:
         """Fixture providing a list of missing DICOM elements."""
         return ["PatientName", "PatientID", "StudyDate"]
 
     @pytest.fixture
-    def dialog(self, qtbot, missing_elements: List[str]):
+    def dialog(self, qtbot, missing_elements: list[str]):
         """Fixture providing an initialized ElementDialog instance."""
         with patch("dcm_mini_viewer.ui.dialogs.element_dialog.get_logger") as mock_get_logger:
             mock_logger = MagicMock()
@@ -34,7 +32,7 @@ class TestElementDialog:
             dialog.mock_logger = mock_logger  # Store for test assertions
             return dialog
 
-    def test_dialog_initialization(self, dialog: ElementDialog, missing_elements: List[str]) -> None:
+    def test_dialog_initialization(self, dialog: ElementDialog, missing_elements: list[str]) -> None:
         """Test initialization of the dialog."""
         # Check if the dialog was initialized properly
         assert dialog.windowTitle() == "Missing DICOM Elements"
@@ -79,7 +77,7 @@ class TestElementDialog:
         assert dialog.get_values() == {}
         dialog.mock_logger.info.assert_called_with(f"User chose action {ElementDialog.ABORT} for missing elements")
 
-    def test_provide_values_action(self, qtbot, dialog: ElementDialog, missing_elements: List[str]) -> None:
+    def test_provide_values_action(self, qtbot, dialog: ElementDialog, missing_elements: list[str]) -> None:
         """Test selecting the 'Provide values' action."""
         # Select the provide values option
         dialog.rb_provide.setChecked(True)
@@ -92,7 +90,7 @@ class TestElementDialog:
         assert dialog.get_action() == ElementDialog.PROVIDE_VALUES
 
         # Check if empty values were created for each missing element
-        expected_values: Dict[str, str] = {element: "" for element in missing_elements}
+        expected_values: dict[str, str] = {element: "" for element in missing_elements}
         assert dialog.get_values() == expected_values
 
         # Check logger calls
@@ -115,7 +113,7 @@ class TestElementDialog:
         assert dialog.get_action() == initial_action
         assert dialog.get_values() == initial_values
 
-    def test_list_widget_items(self, dialog: ElementDialog, missing_elements: List[str]) -> None:
+    def test_list_widget_items(self, dialog: ElementDialog, missing_elements: list[str]) -> None:
         """Test if list widget contains all missing element items."""
         # Find the list widget and check its contents
         list_widget = dialog.findChild(QListWidget)
