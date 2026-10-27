@@ -5,10 +5,10 @@ description = "A discovery project for DICOM file viewing"
 authors = [{ name = "Stuart Swerdloff", email = "sjswerdloff@gmail.com" }]
 license = "GPL-3.0-or-later"
 readme = "README.md"
-requires-python = ">=3.10,<3.13"
+requires-python = ">=3.12,<3.15"
 dependencies = [
-    "PySide6>=6.4.0,<6.9",
-    "pydicom>=2.4.4,<3",
+    "PySide6>=6.9",
+    "pydicom>=2.4.5,<3",
     "numpy",
 ]
 
@@ -17,53 +17,52 @@ dcm-mini-viewer = "dcm_mini_viewer.main:main"
 
 [dependency-groups]
 dev = [
-    "pytest>=7.4.0,<8",
-    "pytest-qt>=4.2.0,<5",
-    "pytest-cov>=4.1.0,<5",
-    "pytest-mock>=3.14.0,<4",
-    "pre-commit>=3.5.0,<4",
-    "pyinstaller>=6.13.0,<7",
+    "pytest>=9.1,<10",
+    "pytest-qt>=4.4,<5",
+    "pytest-cov>=7.0,<8",
+    "pytest-mock>=3.14,<4",
+    "pre-commit>=4.3,<5",
+    "pyinstaller>=6.22,<7",
     "ruff>=0.15",
 ]
 
-# Tooling-only parity with poetry.lock (Refs #1). Constraints hold the exact
-# versions from poetry.lock; the declaration keeps Poetry's caret meaning.
-# Bumps belong in #2, deliberately, one cause at a time.
+# Bumps are deliberate, one cause at a time (house rule: lockfile churn = behaviour
+# churn). #2 lifted the Poetry-era parity: the caps that came from dcm-mini-viewer's
+# own history are gone (Python floor 3.12 per Stuart 27 Oct, PySide6 cap <6.9 dropped,
+# pydicom relaxed to >=2.4.5,<3 per Stuart's same-day word), and what remains pinned is
+# the runtime directs and the dev tooling, each at a current version moved deliberately.
 [tool.uv]
 constraint-dependencies = [
-    "altgraph==0.17.4",
-    "cfgv==3.4.0",
-    "click==8.2.0",
+    "altgraph==0.17.5",
+    "cfgv==3.5.0",
     "colorama==0.4.6",
-    "coverage==7.8.0",
-    "dill==0.4.0",
-    "distlib==0.3.9",
-    "exceptiongroup==1.3.0",
-    "filelock==3.18.0",
-    "identify==2.6.10",
-    "iniconfig==2.1.0",
-    "macholib==1.16.3",
-    "nodeenv==1.9.1",
-    "numpy==2.2.5",
-    "packaging==25.0",
-    "pefile==2023.2.7",
-    "platformdirs==4.3.8",
-    "pluggy==1.5.0",
-    "pydicom==2.4.4",
-    "pyinstaller==6.13.0",
-    "pyinstaller-hooks-contrib==2025.4",
-    "PySide6==6.8.3",
-    "pytest==7.4.4",
-    "pytest-cov==4.1.0",
-    "pytest-mock==3.14.0",
-    "pytest-qt==4.4.0",
+    "coverage==7.17.0",
+    "distlib==0.4.4",
+    "exceptiongroup==1.3.1",
+    "filelock==4.2.4",
+    "identify==2.6.20",
+    "iniconfig==2.3.1",
+    "macholib==1.16.4",
+    "nodeenv==1.11.0",
+    "numpy==2.5.4",
+    "packaging==26.3",
+    "pefile==2024.8.26",
+    "platformdirs==4.13.5",
+    "pluggy==1.7.0",
+    "pydicom==2.4.5",
+    "pyinstaller==6.22.3",
+    "pyinstaller-hooks-contrib==2026.9",
+    "PySide6==6.12.0",
+    "pytest==9.1.1",
+    "pytest-cov==7.1.0",
+    "pytest-mock==3.17.0",
+    "pytest-qt==4.5.0",
     "pywin32-ctypes==0.2.3",
-    "pyyaml==6.0.2",
-    "setuptools==80.4.0",
-    "shiboken6==6.8.3",
-    "tomli==2.2.1",
-    "typing-extensions==4.13.2",
-    "virtualenv==20.31.2",
+    "pyyaml==6.0.3",
+    "setuptools==84.2.1",
+    "shiboken6==6.12.0",
+    "typing-extensions==4.16.0",
+    "virtualenv==21.14.13",
 ]
 
 [build-system]
@@ -75,7 +74,7 @@ packages = ["dcm_mini_viewer"]
 
 [tool.ruff]
 line-length = 127
-target-version = "py310"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B"]
