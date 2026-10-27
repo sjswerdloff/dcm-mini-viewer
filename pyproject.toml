@@ -6,6 +6,10 @@ authors = [{ name = "Stuart Swerdloff", email = "sjswerdloff@gmail.com" }]
 license = "GPL-3.0-or-later"
 readme = "README.md"
 requires-python = ">=3.12,<3.15"
+# Floors are deliberate, not incidental (Refs #2, #4): pydicom >=2.4.5 is Stuart's relaxed
+# floor (was ==2.4.4, forced by Poetry-era parity; lifted by #7, recorded in the note below);
+# PySide6 >=6.9 and the 3.12 floor follow the same caps lift. Exact versions live in
+# [tool.uv].constraint-dependencies, not here.
 dependencies = [
     "PySide6>=6.9",
     "pydicom>=2.4.5,<3",
