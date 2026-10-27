@@ -33,6 +33,10 @@ jobs:
         uses: astral-sh/setup-uv@v5
       - name: Set up Python
         run: uv python install 3.12
+      - name: Install system libraries for PySide6 (EGL, X11)
+        continue-on-error: true
+        run: |
+          sudo -n apt-get update && sudo -n apt-get install -y libegl1 libgl1 libxkbcommon-x11-0 libxcb-cursor0 || echo "sudo not available — relying on pre-installed libraries"
       - name: Install dependencies
         run: uv sync --locked --dev
       - name: Test with pytest
