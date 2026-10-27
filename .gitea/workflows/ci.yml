@@ -33,10 +33,14 @@ jobs:
         uses: astral-sh/setup-uv@v5
       - name: Set up Python
         run: uv python install 3.12
-      - name: Install system libraries for PySide6 (EGL, X11)
-        continue-on-error: true
+      - name: Install system libraries for PySide6 (no sudo — download and extract)
         run: |
-          sudo -n apt-get update && sudo -n apt-get install -y libegl1 libgl1 libxkbcommon-x11-0 libxcb-cursor0 || echo "sudo not available — relying on pre-installed libraries"
+          mkdir -p /tmp/qt-libs
+          cd /tmp/qt-libs
+          apt-get download libegl1 libgl1 libxkbcommon-x11-0 libxcb-cursor0 2>/dev/null || true
+          for deb in *.deb; do dpkg-deb -x "$deb" .; done
+          echo "/tmp/qt-libs/usr/lib/aarch64-linux-gnu" >> $GITHUB_ENV
+          echo "LD_LIBRARY_PATH=/tmp/qt-libs/usr/lib/aarch64-linux-gnu:$LD_LIBRARY_PATH" >> $GITHUB_ENV
       - name: Install dependencies
         run: uv sync --locked --dev
       - name: Test with pytest
