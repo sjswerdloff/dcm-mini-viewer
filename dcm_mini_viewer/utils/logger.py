@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Logging configuration for the dcm-mini-viewer project.
 """
@@ -9,10 +8,9 @@ import os
 import sys
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
-from typing import Dict
 
 # Cache for initialized loggers
-_LOGGER_CACHE: Dict[str, logging.Logger] = {}
+_LOGGER_CACHE: dict[str, logging.Logger] = {}
 
 
 def setup_logger(log_level: int = logging.INFO) -> logging.Logger:

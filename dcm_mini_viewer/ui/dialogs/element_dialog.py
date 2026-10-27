@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Dialog for handling missing DICOM elements.
 """
-
-from typing import Dict, List
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
@@ -34,7 +31,7 @@ class ElementDialog(QDialog):
     ABORT = 1
     PROVIDE_VALUES = 2
 
-    def __init__(self, missing_elements: List[str], parent=None) -> None:
+    def __init__(self, missing_elements: list[str], parent=None) -> None:
         """
         Initialize the dialog.
 
@@ -46,7 +43,7 @@ class ElementDialog(QDialog):
         self.logger = get_logger()
         self.missing_elements = missing_elements
         self.action = self.ABORT
-        self.values: Dict[str, str] = {}
+        self.values: dict[str, str] = {}
 
         self.setup_ui()
 
@@ -123,7 +120,7 @@ class ElementDialog(QDialog):
         """
         return self.action
 
-    def get_values(self) -> Dict[str, str]:
+    def get_values(self) -> dict[str, str]:
         """
         Get the provided values for missing elements.
 
