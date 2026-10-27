@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Pytest configuration for logger tests.
 """
 
 import logging
 import os
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Iterator
 
 import pytest
 

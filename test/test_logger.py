@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Unit tests for the logger module.
 """
@@ -380,7 +379,7 @@ class TestLogger(unittest.TestCase):
             self.assertTrue(log_file_path.exists())
 
             # Check content of the log file
-            with open(log_file_path, "r") as f:
+            with open(log_file_path) as f:
                 content = f.read()
                 self.assertIn("Test log message", content)
 

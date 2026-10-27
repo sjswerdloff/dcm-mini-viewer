@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Test module for MainWindow class using pytest-qt plugin.
 """
-
-from typing import List
 
 import numpy as np
 import pytest
@@ -297,12 +294,12 @@ def handle_element_dialog(qtbot):
     if dialog and "ElementDialog" in dialog.__class__.__name__:
         # Find and click the Abort radio button
         print("Found Element Dialog")
-        list_of_radio_buttons: List[QRadioButton] = dialog.findChildren(QRadioButton)
+        list_of_radio_buttons: list[QRadioButton] = dialog.findChildren(QRadioButton)
         list_of_names = [x.objectName() for x in list_of_radio_buttons]
         print(list_of_names)
         list_of_text = [x.text() for x in list_of_radio_buttons]
         print(list_of_text)
-        list_of_push_buttons: List[QPushButton] = dialog.findChildren(QPushButton)
+        list_of_push_buttons: list[QPushButton] = dialog.findChildren(QPushButton)
         list_of_names = [x.objectName() for x in list_of_push_buttons]
         print(list_of_names)
         list_of_text = [x.text() for x in list_of_push_buttons]
