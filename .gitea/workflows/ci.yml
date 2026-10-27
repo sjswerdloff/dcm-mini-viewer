@@ -1,6 +1,9 @@
 # Gitea CI (#6), on our self-hosted Mac Studio runner. .github/workflows/ stays for GitHub's
 # hosted runners; Gitea reads .gitea/workflows/ in preference to it.
 # Actions are pinned by commit SHA with the tag in a comment.
+# Single interpreter: the Studio cannot run 3.13/3.14 against PySide6 6.8.3 (no cp313+
+# wheels), and three interpreters sharing one .venv on one machine is not three
+# measurements. The version matrix lives in .github/workflows/ci.yml.
 name: ci
 on:
   pull_request:
@@ -17,9 +20,6 @@ defaults:
 jobs:
   gates:
     runs-on: stuart-m3ultra-canary
-    strategy:
-      matrix:
-        python-version: ["3.12", "3.13", "3.14"]
     env:
       QT_QPA_PLATFORM: offscreen
     steps:
@@ -32,8 +32,6 @@ jobs:
         run: |
           command -v uv > /dev/null || HOMEBREW_NO_AUTO_UPDATE=1 brew install uv
           echo "uv: $(command -v uv) -> $(uv --version)"
-      - name: Set up Python ${{ matrix.python-version }}
-        run: uv python install ${{ matrix.python-version }}
       - name: Install dependencies
         run: uv sync --locked --dev
       - name: Lint with ruff
